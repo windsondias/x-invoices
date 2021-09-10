@@ -1,0 +1,88 @@
+version: "3"
+
+networks:
+    xInvoices:
+        driver: bridge
+
+services:
+    php:
+        build:
+            context: docker/dockerfile
+            dockerfile: php.dockerfile
+        container_name: '${APP_NAME}-php'
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - '${APP_NAME}'
+
+    www:
+        image: nginx:stable
+        restart: unless-stopped
+        container_name: '${APP_NAME}-nginx'
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        depends_on:
+            - php
+            - redis
+            - mysql
+            - mailhog
+        networks:
+            - '${APP_NAME}'
+
+    mysql:
+        image: 'mysql:8.0'
+        command: --default-authentication-plugin=mysql_native_password
+        container_name: '${APP_NAME}-mysql'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'mysql:/var/lib/mysql'
+        networks:
+            - '${APP_NAME}'
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping" ]
+
+    redis:
+        image: redis:alpine
+        container_name: '${APP_NAME}-redis'
+        restart: unless-stopped
+        ports:
+            - 6379:6379
+        networks:
+            - '${APP_NAME}'
+
+    npm:
+        image: node:13.7
+        container_name: '${APP_NAME}-npm'
+        volumes:
+            - ./:/var/www
+        working_dir: /var/www
+        entrypoint: [ 'npm' ]
+        networks:
+            - '${APP_NAME}'
+
+    mailhog:
+        image: mailhog/mailhog:latest
+        container_name: '${APP_NAME}-mailhog'
+        ports:
+            - 1025:1025
+            - 8025:8025
+        networks:
+            - '${APP_NAME}'
+
+volumes:
+    mysql:
+        driver: local
+    redis:
+        driver: local
