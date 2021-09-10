@@ -23,7 +23,6 @@
                         <button class="btn btn-info" :disabled="form.processing" type="submit">Log In</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </Main>
@@ -54,6 +53,6 @@ export default {
 
 <style scoped>
 .login-box {
-    height: calc(95vh - 130px);
+    height: calc(95vh - 150px);
 }
 </style>

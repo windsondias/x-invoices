@@ -6,7 +6,7 @@
     <style>
 
         @page {
-            margin: 100px 25px;
+            margin: 100px 50px;
         }
 
         @font-face {
@@ -153,8 +153,8 @@
                 <tr>
                     <th style=""></th>
                     <th style=""></th>
-                    <th style="text-align: right">TOTAL</th>
-                    <th style="text-align: right;padding-right: 10px">{{number_format($total, 2)}} €</th>
+                    <th style="text-align: right;color: #28416c">TOTAL</th>
+                    <th style="text-align: right;padding-right: 10px;color: #28416c">{{number_format($total, 2)}} €</th>
                 </tr>
                 </tfoot>
             </table>

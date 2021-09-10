@@ -17,12 +17,12 @@ use App\Http\Controllers\InvoiceController;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::inertia('/', 'Login')->name('index');
+    Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
     Route::get('/register', [AuthController::class, 'register'])->name('register');
 });
 Route::middleware('auth')->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
     Route::get('/invoices/print/{invoice}', [InvoiceController::class, 'print'])->name('invoices.print');
     Route::resource('invoices', InvoiceController::class);
 });

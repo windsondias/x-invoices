@@ -29898,7 +29898,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.login-box[data-v-a2ac2cea] {\n    height: calc(95vh - 130px);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.login-box[data-v-a2ac2cea] {\n    height: calc(95vh - 150px);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29922,7 +29922,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.login-box[data-v-e59c811e]{\n    height: calc(95vh - 130px);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.login-box[data-v-e59c811e]{\n    height: calc(95vh - 160px);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

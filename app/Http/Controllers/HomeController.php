@@ -9,6 +9,12 @@ class HomeController extends Controller
 {
     public function index()
     {
+        return Redirect::route('login');
+//        return inertia('Home');
+    }
+
+    public function home()
+    {
         return Redirect::route('invoices.index');
 //        return inertia('Home');
     }
