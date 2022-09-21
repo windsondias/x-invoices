@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class InvoiceController extends Controller
 {
     public function index()
     {
-        $invoices = Invoice::with('items')->where('user_id', auth()->id())->get();
+        $invoices = Auth::user()->invoices()->orderByDesc('id')->paginate(15);
 
         return inertia('Invoice/Index', [
             'invoices' => $invoices
@@ -21,7 +22,9 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        return inertia('Invoice/Create');
+        $lastInvoice = Auth::user()->invoices->last()->load('items');
+
+        return inertia('Invoice/Create', compact('lastInvoice'));
     }
 
     public function store(Request $request)
@@ -33,7 +36,6 @@ class InvoiceController extends Controller
             'from' => 'required',
             'bill_to' => 'required',
             'terms' => 'required',
-//            'ship_to' => 'required',
             'items.*.quantity' => 'required|numeric|integer',
             'items.*.description' => 'required',
             'items.*.unit_price' => 'required|numeric',
@@ -63,9 +65,17 @@ class InvoiceController extends Controller
         return Redirect::route('invoices.index');
     }
 
-    public function print(Invoice $invoice)
+    public function destroy(Invoice $invoice)
     {
-        $pdf = PDF::loadView('pdfs.invoices.template_default', [
+        if ($invoice->user_id === Auth::id()){
+            $invoice->items()->delete();
+            $invoice->delete();
+        }
+    }
+
+    public function print(Invoice $invoice): \Illuminate\Http\Response
+    {
+        $pdf = Pdf::loadView('pdfs.invoices.template_default', [
             'invoice' => $invoice
         ]);
         return $pdf->stream('invoice.pdf');

@@ -24,13 +24,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-if="invoices.length > 0" v-for="(invoice, index) in invoices">
+                                <tr v-if="invoices.data.length > 0" v-for="(invoice, index) in invoices.data"  :key="invoice.id">
                                     <td>{{ invoice.number }}</td>
                                     <td>{{ invoice.invoice_date }}</td>
                                     <td>{{ invoice.due_date }}</td>
                                     <td>{{ invoice.from }}</td>
                                     <td>{{ invoice.bill_to }}</td>
-                                    <td><a :href="$route('invoices.print', invoice.id)" target="_blank"><i class="bi bi-printer-fill"></i></a></td>
+                                    <td class="text-end">
+                                        <a :href="$route('invoices.print', invoice.id)" target="_blank">
+                                            <button class="btn text-primary"><i class="bi bi-printer-fill"></i></button>
+                                        </a>
+                                        <Link class="btn text-danger" :href="$route('invoices.destroy', invoice.id)" method="delete" as="button" type="button"><i class="bi bi-trash-fill"></i></Link>
+                                    </td>
                                 </tr>
                                 <tr v-else>
                                     <td style="text-align: center" colspan="6">No invoice found</td>
@@ -39,6 +44,8 @@
                             </table>
                         </div>
                     </div>
+
+                    <Pagination class="mt-6" :links="invoices.links" />
                 </div>
             </div>
         </div>
@@ -49,13 +56,15 @@
 import Main from "../../Components/Layout/Main"
 import {Head} from '@inertiajs/inertia-vue3'
 import {Link} from '@inertiajs/inertia-vue3'
+import Pagination from "../../Components/Table/Pagination";
 
 export default {
     name: "Index",
     components: {
         Main,
         Head,
-        Link
+        Link,
+        Pagination
     },
     props: {
         invoices: Object

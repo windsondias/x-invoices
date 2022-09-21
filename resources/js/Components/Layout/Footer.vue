@@ -1,7 +1,7 @@
 <template>
     <footer class="page-footer bg-dark p-0">
         <div class="footer-copyright">
-            <p class="text-center text-white">© 2021 StyleTech</p>
+            <p class="text-center text-white">© 2022 W.D.S. Consultoria e Desenvolvimento</p>
         </div>
     </footer>
 </template>

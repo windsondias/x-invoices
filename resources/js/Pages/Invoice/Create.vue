@@ -3,8 +3,13 @@
         <Head title="Invoices Create"/>
         <form @submit.prevent="form.post($route('invoices.store'))">
             <div class="row invoice-box shadow-lg p-3 rounded">
-                <div class="col-md-12">
+                <div class="col-md-4 mb-3">
                     <h3>Create new invoice</h3>
+                </div>
+                <div class="col-md-8 text-end mb-3">
+                    <button v-show="lastInvoice !== null" type="button" class="btn btn-outline-info" @click="fillFields">
+                        Fill in the fields with data from the last invoice
+                    </button>
                 </div>
                 <div class="col-md-4">
                     <div class="form-floating mb-3">
@@ -129,10 +134,8 @@ export default {
         Head,
         InputMoney
     },
-    data() {
-        return {
-            value: 1234,
-        };
+    props: {
+        lastInvoice: Object,
     },
     setup() {
         const form = useForm({
@@ -155,16 +158,36 @@ export default {
         return {form}
     },
     methods: {
-        addItem() {
+        addItem(data) {
             this.form.items.push({
-                quantity: null,
-                description: null,
-                unit_price: null
+                quantity: data.quantity ?? null,
+                description: data.description ?? null,
+                unit_price: data.unit_price ?? null
             })
         },
         removeItem(index) {
-            if (this.form.items.length > 1) this.form.items.splice(index, 1);
+            if (this.form.items.length > 1) this.form.items.splice(index, 1)
+        },
+        fillFields(){
+            this.form.from = this.lastInvoice.from
+            this.form.invoice_date = this.lastInvoice.invoice_date
+            this.form.due_date = this.lastInvoice.due_date
+            this.form.bill_to = this.lastInvoice.bill_to
+            this.form.ship_to = this.lastInvoice.ship_to
+            this.form.terms = this.lastInvoice.terms
+            if (this.form.items.length > 0) this.form.items.splice(0, 1)
+            this.lastInvoice.items.forEach((value, index) => {
+                this.addItem(value);
+            })
         }
+    },
+    computed: {
+        invoiceNumber: function () {
+            return this.lastInvoice !== null ? Number(this.lastInvoice.number) + 1 : null
+        }
+    },
+    mounted() {
+        this.form.invoice_number = this.invoiceNumber
     }
 }
 </script>

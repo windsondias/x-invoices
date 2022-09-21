@@ -27,7 +27,7 @@
         "bootstrap-vue": "^2.21.2",
         "install": "^0.13.0",
         "vue": "^3.2.6",
-        "vue-currency-input": "^2.0.2",
+        "vue-currency-input": "^3.0.0",
         "vue-money-mask": "^0.8.1",
         "vue3-datepicker": "^0.2.5"
     }

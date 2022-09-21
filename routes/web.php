@@ -24,6 +24,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'home'])->name('home');
     Route::get('/invoices/print/{invoice}', [InvoiceController::class, 'print'])->name('invoices.print');
-    Route::resource('invoices', InvoiceController::class);
+    Route::resource('invoices', InvoiceController::class)->only([
+        'index', 'create', 'store', 'destroy'
+    ]);
 });
 
