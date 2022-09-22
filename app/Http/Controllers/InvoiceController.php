@@ -22,7 +22,7 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        $lastInvoice = Auth::user()->invoices->last()->load('items');
+        $lastInvoice = Auth::user()->invoices()->with('items')->latest()->first();
 
         return inertia('Invoice/Create', compact('lastInvoice'));
     }
