@@ -121,7 +121,7 @@
                     <td style="text-align: right">{{\Carbon\Carbon::parse($invoice->invoice_date)->format('d/m/Y')}}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: left">{{$invoice->bill_to}}</td>
+                    <td style="text-align: left"></td>
                     <th style="text-align: left;color: #28416c">DUE DATE</th>
                     <td style="text-align: right">{{\Carbon\Carbon::parse($invoice->due_date)->format('d/m/Y')}}</td>
                 </tr>
